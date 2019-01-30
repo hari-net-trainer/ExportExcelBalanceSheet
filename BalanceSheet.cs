@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -32,14 +32,18 @@ namespace OpenXMLSample
                 rslt.Liabilities.Add(new CatagoryItems { CatagoryName = "YYY", AssetItem = string.Format("Liable - {0}", i), Ammount = 123 * i });
             }
 
+            for (int i = 1; i <= 5; i++)
+            {
+                rslt.Assets.Add(new CatagoryItems { CatagoryName = "AAA", AssetItem = string.Format("Asset - {0}", i), Ammount = 255 * i });
+            }
             for (int i = 1; i <= 3; i++)
             {
-                rslt.Liabilities.Add(new CatagoryItems { CatagoryName = "AAA", AssetItem = string.Format("Asset - {0}", i), Ammount = 255 * i });
+                rslt.Assets.Add(new CatagoryItems { CatagoryName = "BBB", AssetItem = string.Format("Asset - {0}", i), Ammount = 255 * i });
             }
-            for (int i = 1; i <= 2; i++)
-            {
-                rslt.Liabilities.Add(new CatagoryItems { CatagoryName = "BBB", AssetItem = string.Format("Asset - {0}", i), Ammount = 255 * i });
-            }
+            //for (int i = 1; i <= 7; i++)
+            //{
+            //    rslt.Assets.Add(new CatagoryItems { CatagoryName = "CCC", AssetItem = string.Format("Asset - {0}", i), Ammount = 147 * i });
+            //}
 
             return rslt;
         }
@@ -67,7 +71,7 @@ namespace OpenXMLSample
                     dynamic oLiab = new ExpandoObject();
                     oLiab.CatagoryItem = cat;
                     oLiab.TotalValue = CurrencyFormate(resultDs.Liabilities.Where(x => x.CatagoryName == cat).Sum(y => y.Ammount));
-                    oLiab.Items = resultDs.Liabilities.Where(x => x.CatagoryName == cat).Select(y => new { Item = y.AssetItem, Value = CurrencyFormate(y.Ammount) });
+                    oLiab.Items = resultDs.Liabilities.Where(x => x.CatagoryName == cat).Select(y => new { ItemName = y.AssetItem, Value = CurrencyFormate(y.Ammount) });
                     liabObj.Add(oLiab);
                 }
                 balObj.LiabilityItem = new
@@ -84,7 +88,7 @@ namespace OpenXMLSample
                     dynamic oAsst = new ExpandoObject();
                     oAsst.CatagoryItem = cat;
                     oAsst.TotalValue = CurrencyFormate(resultDs.Assets.Where(x => x.CatagoryName == cat).Sum(y => y.Ammount));
-                    oAsst.Items = resultDs.Assets.Where(x => x.CatagoryName == cat).Select(y => new { Item = y.AssetItem, Value = CurrencyFormate(y.Ammount) });
+                    oAsst.Items = resultDs.Assets.Where(x => x.CatagoryName == cat).Select(y => new { ItemName = y.AssetItem, Value = CurrencyFormate(y.Ammount) });
                     assetObj.Add(oAsst);
                 }
                 balObj.AssetItem = new
